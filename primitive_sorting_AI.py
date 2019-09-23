@@ -52,22 +52,22 @@ class Neural_Network(object): #creation of the neural network class
         self.backward(wanted_values,output_dataset,output_values)
 
     def prediction(self): #print the prediciton of the AI after training
-        print("donnée prédite après entrainement: ")
-        print("Entrée : \n" + str(predict))
-        print("Sortie : \n" + str(self.forward(predict)))
+        print("predicted values after training: ")
+        print("Input : \n" + str(predict))
+        print("Output : \n" + str(self.forward(predict)))
 
         if(self.forward(predict) < 0.5):
-            print("L'IA a trouvé un rectangle \n")
+            print("The AI have found a rectangle \n")
         else:
-            print("L'IA a trouvé un carré \n")
+            print("The AI have found a squarre \n")
 
 
 brain = Neural_Network()
 
 for i in range(50000): #training loop, we put in parameter number of training the number of training that we want our AI to do
-    print("entrainement n° " + str(i) + "\n")
-    print("Sortie du dataset: \n" + str(output_dataset))
-    print("\nSortie trouver par l'IA: \n" + str(np.matrix.round(brain.forward(wanted_values),2)))
+    print("training number " + str(i) + "\n")
+    print("output of the dataset: \n" + str(output_dataset))
+    print("\noutput found by the AI : \n" + str(np.matrix.round(brain.forward(wanted_values),2)))
     print("\n")
     brain.training(wanted_values,output_dataset)
 
