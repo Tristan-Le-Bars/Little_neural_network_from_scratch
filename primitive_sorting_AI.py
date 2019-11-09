@@ -41,66 +41,56 @@ def get_predict ():
     predict = np.split(input_dataset, [example_num])[1]
     return predict   
 
-
-    
-
-class Neural_Network(object): #creation of the neural network class
+class Neural_Network(object):
     def __init__(self):
-        self.inputnum = 2 #define the number of neurons in the input layer
-        self.outputnum = 1 #define the number of neurons in the output layer
-        self.hiddennum = 3 #define the number of neurons in the hidden layer
+        self.inputnum = 2
+        self.outputnum = 1
+        self.hiddennum = 3
 
-        #randomlly create the synaps weights
-        self.W1 = np.random.randn(self.inputnum, self.hiddennum) #matrix 2*3
-        self.W2 = np.random.randn(self.hiddennum, self.outputnum) #matrix 3*1
+        self.W1 = np.random.randn(self.inputnum, self.hiddennum)
+        self.W2 = np.random.randn(self.hiddennum, self.outputnum)
 
-    def forward(self, wanted_values): #forward propagation funtion
-        self.input_matrix_product = np.dot(wanted_values,self.W1) #matrix multiplication between our input values and the synaps weight 
-        self.hidden_values = self.sigmoid(self.input_matrix_product) #we apply the sigmoid function to the matrix product, we obtain the hidden layer values
-        self.hidden_matrix_product = np.dot(self.hidden_values,self.W2) #matrix multiplication between the hidden values and the synaps weight
-        output_values = self.sigmoid(self.hidden_matrix_product) #we apply the sigmoid function to the matrix product, we obtain the output layer values
+    def forward(self, wanted_values):
+        self.input_matrix_product = np.dot(wanted_values,self.W1) 
+        self.hidden_values = self.sigmoid(self.input_matrix_product)
+        self.hidden_matrix_product = np.dot(self.hidden_values,self.W2)
+        output_values = self.sigmoid(self.hidden_matrix_product)
         return output_values
     
     def sigmoid(self, s):
-        return 1 / (1 + np.exp(-s)) #this is the sigmoid function
+        return 1 / (1 + np.exp(-s))
 
-    def sigmoid_prime(self, s): #compute the derivative of the sigmoid function
+    def sigmoid_prime(self, s):
         return s * (1 - s)
 
-    def backward(self, wanted_values, output_values): #retro-propagation function
+    def backward(self, wanted_values, output_values):
         global output_dataset
-
+        
         #output neurons layer
-        self.output_error = output_dataset - output_values #compute the margin of error
-        self.output_delta = self.output_error * self.sigmoid_prime(output_values) #compute the delta of the margin of error
-
+        self.output_error = output_dataset - output_values
+        self.output_delta = self.output_error * self.sigmoid_prime(output_values)
         #hidden neurons layer
-        self.hidden_values_error = self.output_delta.dot(self.W2.T) #compute the margin of error
-        self.hidden_values_delta = self.hidden_values_error * self.sigmoid_prime(self.hidden_values) #compute the delta of the margin of error
-
+        self.hidden_values_error = self.output_delta.dot(self.W2.T)
+        self.hidden_values_delta = self.hidden_values_error * self.sigmoid_prime(self.hidden_values)
         #update the synaps weight
-        self.W1 += wanted_values.T.dot(self.hidden_values_delta) #we add to the synaps weight between the input layer and the hidden layer 
-                                                                 #the matrix product of the input values with the delta ou le margin of error of the hidden neurons layer
-
-        self.W2 += self.hidden_values.T.dot(self.output_delta) #we add to the synaps weight between the hidden layer and the output layer
-                                                          #the matrix product of the hidden values with the delta ou le margin of error of the output neurons layer
-
-    def training(self, wanted_values): #training function of the AI
+        self.W1 += wanted_values.T.dot(self.hidden_values_delta) 
+        self.W2 += self.hidden_values.T.dot(self.output_delta) 
+        
+    def training(self, wanted_values):
         global output_dataset
 
         output_values = self.forward(wanted_values)
         self.backward(wanted_values,output_values)
 
-    def prediction(self): #print the prediciton of the AI after training
+    def prediction(self):
         predict = get_predict ()
-        print("donnée prédite après entrainement: ")
-        print("Entrée : \n" + str(predict))
-        print("Sortie : \n" + str(self.forward(predict)))
+        print("Prediciton after training: ")
+        print("Output : \n" + str(self.forward(predict)))
 
         if(self.forward(predict) < 0.5):
-            print("L'IA a trouvé un rectangle \n")
+            print("The AI have found that the type of the object is 0 \n")
         else:
-            print("L'IA a trouvé un carré \n")
+            print("The AI have found that the type of the object is 1")
 
 
 filling_dataset()
@@ -108,10 +98,10 @@ wanted_values = get_wanted_values()
 
 brain = Neural_Network()
 
-for i in range(30000): #training loop, we put in parameter number of training the number of training that we want our AI to do
-    print("entrainement n° " + str(i) + "\n")
-    print("Sortie du dataset: \n" + str(output_dataset))
-    print("\nSortie trouver par l'IA: \n" + str(np.matrix.round(brain.forward(wanted_values),2)))
+for i in range(30000):
+    print("Training number " + str(i) + "\n")
+    print("Dataset output: \n" + str(output_dataset))
+    print("\nOutput found by the AI: \n" + str(np.matrix.round(brain.forward(wanted_values),2)))
     print("\n")
     brain.training(wanted_values)
 
