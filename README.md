@@ -1,5 +1,5 @@
 # primitive_sorting_AI
-This program is a machine learning algorithm able to guess if an object is a squarre or a rectangle.
+This software is a machine learning algorithme that can predicte the type of an object between 2 type that contain 2 parameters.
 
 ## Prerequisites
 to use this program you need to install python3 ,pip and the numpy lib:
@@ -7,14 +7,14 @@ to use this program you need to install python3 ,pip and the numpy lib:
 sudo apt install python3 python3-pip python3-numpy
 ```
 ## How does it work ?
-The neural network of this program contain 3 layer of neurons:
-- an input layer
-- an hidden layer
-- an output layer
+First, the user will choose the number of example in the dataset that the AI will use to train.
+![alt text](https://github.com/Tristan-Le-Bars/primitive_sorting_AI/blob/master/example_num.png)
 
-![alt text](https://github.com/Tristan-Le-Bars/primitive_sorting_AI/blob/master/Neural_network.png)
+Then the user will fill this dataset by giving the values of the 2 parameters for the objects and its type (1 or 0).
+![alt text](https://github.com/Tristan-Le-Bars/primitive_sorting_AI/blob/master/parameters.png)
 
-At the begening of the program, we set up the dataset that containes the values that describes the objects (in this program : a lenght and a width) and the values of the object that the AI will predict the type of this object (a squarre or a rectangle)
+After this come the training of the AI, the AI, will train 30000 times. At every training, the output in the dataset and the dataset found by the AI will be printed so you can compare them, and see the evolution of the AI prediction.
+![alt text](https://github.com/Tristan-Le-Bars/primitive_sorting_AI/blob/master/training.png)
 
-## About this AI
-The dataset is already writed in the code. But you can modifie it to make it find what you want untill it only need 2 values to describe it because the neural network only have 2 input neurones, you can increment the number of neurones in every if you need more parameters to describes the objectes.
+Finally, when the training is over, the software print the prediction of the AI.
+![alt text](https://github.com/Tristan-Le-Bars/primitive_sorting_AI/blob/master/prediction.png)
